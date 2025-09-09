@@ -82,21 +82,21 @@ export default function AlumniDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background-light shadow-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Alumni Dashboard</h1>
-              <p className="text-gray-600">Welcome back, {alumniName}!</p>
+              <h1 className="text-2xl font-bold text-text">Alumni Dashboard</h1>
+              <p className="text-muted">Welcome back, {alumniName}!</p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-text">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-text">
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
               </Button>
@@ -112,16 +112,16 @@ export default function AlumniDashboard() {
             {/* Stats */}
             <div className="grid md:grid-cols-3 gap-6">
               {stats.map((stat, index) => (
-                <Card key={index}>
+                <Card key={index} className="bg-background-card border-border hover:border-accent/30 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                        <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                        <p className="text-xs text-green-600">{stat.change}</p>
+                        <p className="text-sm font-medium text-muted">{stat.label}</p>
+                        <p className="text-2xl font-bold text-text">{stat.value}</p>
+                        <p className="text-xs text-accent">{stat.change}</p>
                       </div>
-                      <div className="bg-primary/10 p-3 rounded-full">
-                        <stat.icon className="h-6 w-6 text-primary" />
+                      <div className="bg-accent/20 p-3 rounded-full">
+                        <stat.icon className="h-6 w-6 text-accent" />
                       </div>
                     </div>
                   </CardContent>
@@ -130,23 +130,23 @@ export default function AlumniDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle className="text-text">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {quickActions.map((action, index) => (
-                    <Card key={index} className="group hover:shadow-md transition-all duration-200 cursor-pointer">
+                    <Card key={index} className="group hover:shadow-md transition-all duration-200 cursor-pointer bg-background-lighter border-border">
                       <CardContent className="p-6">
                         <div className="flex items-start space-x-4">
-                          <div className={`${action.color} p-3 rounded-lg group-hover:scale-110 transition-transform`}>
-                            <action.icon className="h-6 w-6 text-white" />
+                          <div className="bg-accent/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
+                            <action.icon className="h-6 w-6 text-accent" />
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 mb-1">{action.title}</h3>
-                            <p className="text-sm text-gray-600 mb-3">{action.description}</p>
-                            <Button size="sm" className="w-full">
+                            <h3 className="font-semibold text-text mb-1">{action.title}</h3>
+                            <p className="text-sm text-muted mb-3">{action.description}</p>
+                            <Button size="sm" className="w-full bg-accent hover:bg-accent-light">
                               Go to {action.title.split(' ')[0]}
                             </Button>
                           </div>
@@ -161,12 +161,12 @@ export default function AlumniDashboard() {
 
           {/* Notifications Sidebar */}
           <div className="space-y-6">
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="flex items-center text-text">
                   <Bell className="h-5 w-5 mr-2" />
                   Notifications
-                  <Badge variant="secondary" className="ml-2">
+                  <Badge variant="secondary" className="ml-2 bg-accent/20 text-accent">
                     {notifications.filter(n => n.unread).length}
                   </Badge>
                 </CardTitle>
@@ -176,22 +176,22 @@ export default function AlumniDashboard() {
                   <div 
                     key={notification.id} 
                     className={`p-4 rounded-lg border ${
-                      notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'
+                      notification.unread ? 'bg-accent/10 border-accent/20' : 'bg-background-lighter border-border'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">{notification.title}</h4>
-                        <p className="text-sm text-gray-600 mb-2">{notification.message}</p>
-                        <p className="text-xs text-gray-500">{notification.time}</p>
+                        <h4 className="font-medium text-text mb-1">{notification.title}</h4>
+                        <p className="text-sm text-muted mb-2">{notification.message}</p>
+                        <p className="text-xs text-muted">{notification.time}</p>
                       </div>
                       {notification.unread && (
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-1"></div>
+                        <div className="w-2 h-2 bg-accent rounded-full mt-1"></div>
                       )}
                     </div>
                   </div>
                 ))}
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-accent text-accent hover:bg-accent hover:text-text">
                   View All Notifications
                 </Button>
               </CardContent>

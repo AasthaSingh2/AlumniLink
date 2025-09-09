@@ -1,4 +1,6 @@
 export type Alumnus = {
+  position: ReactNode;
+  image: string | StaticImport;
   id: string;
   name: string;
   avatarUrl: string;

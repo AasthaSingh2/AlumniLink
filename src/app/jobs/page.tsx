@@ -50,7 +50,7 @@ export default function JobsPage() {
       description: 'We are looking for a Senior Software Engineer to join our team. You will work on cutting-edge projects and collaborate with world-class engineers.',
       applyLink: 'https://careers.google.com/jobs/123',
       postedDate: '2024-01-15',
-      postedBy: 'Dr. Sarah Johnson'
+      postedBy: 'Dr. Sara'
     },
     {
       id: '2',
@@ -61,7 +61,7 @@ export default function JobsPage() {
       description: 'Join our ML team for a 12-week internship. Work on real projects and learn from industry experts.',
       applyLink: 'https://careers.microsoft.com/internships/456',
       postedDate: '2024-01-14',
-      postedBy: 'Michael Chen'
+      postedBy: 'Dr.Arth'
     },
     {
       id: '3',
@@ -72,7 +72,7 @@ export default function JobsPage() {
       description: 'Lead product development for our e-commerce platform. Work with cross-functional teams to deliver amazing user experiences.',
       applyLink: 'https://amazon.jobs/en/jobs/789',
       postedDate: '2024-01-13',
-      postedBy: 'Dr. Emily Rodriguez'
+      postedBy: 'Dr. Emily'
     },
     {
       id: '4',
@@ -83,7 +83,7 @@ export default function JobsPage() {
       description: 'Analyze user behavior data to improve our recommendation algorithms. Work with large datasets and cutting-edge tools.',
       applyLink: 'https://jobs.netflix.com/internships/101',
       postedDate: '2024-01-12',
-      postedBy: 'Alex Thompson'
+      postedBy: 'Mr Reyansh'
     }
   ]);
 
@@ -107,8 +107,8 @@ export default function JobsPage() {
     return matchesSearch && matchesLocation && matchesType && matchesCompany;
   });
 
-  const uniqueLocations = [...new Set(jobs.map(job => job.location))];
-  const uniqueCompanies = [...new Set(jobs.map(job => job.company))];
+  const uniqueLocations = Array.from(new Set(jobs.map(job => job.location)));
+  const uniqueCompanies = Array.from(new Set(jobs.map(job => job.company)));
 
   const handlePostJob = (e: React.FormEvent) => {
     e.preventDefault();

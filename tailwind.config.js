@@ -17,38 +17,40 @@ module.exports = {
     },
     extend: {
       colors: {
+        // Dark slate and sage green palette
+        background: '#1C1F26',
+        text: '#F8F7F3',
+        muted: '#9AA0A6',
+        accent: '#A8C686',
+        'accent-hover': '#B5D295',
+        'background-light': '#242A33',
+        'background-lighter': '#2A3139',
+        'background-card': '#242A33',
+        
+        // Keep existing CSS variables for compatibility
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#4169E1",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#391042",
+          foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#0E1416",
+          foreground: "#FFFFFF",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "#FFD700",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "#0E1416",
+          foreground: "#FFFFFF",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "#0F1517",
+          foreground: "#FFFFFF",
         },
       },
       borderRadius: {

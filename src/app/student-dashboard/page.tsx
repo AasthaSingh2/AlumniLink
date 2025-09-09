@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -54,34 +56,34 @@ export default function StudentDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background-light shadow-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
-              <div className="bg-primary p-2 rounded-lg">
-                <Building2 className="h-6 w-6 text-white" />
+              <div className="bg-accent p-2 rounded-lg">
+                <Building2 className="h-6 w-6 text-text" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">AlumniLink</h1>
-                <p className="text-sm text-gray-600">Student Portal</p>
+                <h1 className="text-2xl font-bold text-text">AlumniLink</h1>
+                <p className="text-sm text-muted">Student Portal</p>
               </div>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <Link href="/events" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/events" className="link-accent">
                 Events
               </Link>
-              <Link href="/directory" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/directory" className="link-accent">
                 Directory
               </Link>
-              <Link href="/jobs" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/jobs" className="link-accent">
                 Jobs
               </Link>
-              <Link href="/mentorship" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/mentorship" className="link-accent">
                 Mentorship
               </Link>
-              <Link href="#donations" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="#donations" className="link-accent">
                 Donations
               </Link>
             </nav>
@@ -91,48 +93,57 @@ export default function StudentDashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <div className="text-center mb-16 animate-fade-in">
+          <h1 className="text-4xl md:text-5xl font-bold text-text mb-6 animate-slide-up">
             Welcome to Your
             <br />
-            <span className="text-primary">Alumni Network</span>
+            <span className="text-accent animate-slide-up-delayed">
+              Alumni Network
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-muted mb-8 max-w-3xl mx-auto animate-slide-up">
             Connect with successful alumni, discover opportunities, and build your professional network.
           </p>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8 mb-16 animate-fade-in">
           {quickActions.map((action, index) => (
-            <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
-                <div className="bg-primary/10 p-3 rounded-lg w-fit group-hover:bg-primary/20 transition-colors">
-                  <action.icon className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-xl">{action.title}</CardTitle>
-                <CardDescription className="text-gray-600">
-                  {action.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link href={action.href}>
-                  <Button className="w-full group-hover:bg-primary/90 transition-colors">
-                    {action.buttonText}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <div
+              key={index}
+              className={`animate-stagger-${index + 1} group hover:scale-102 hover:-translate-y-1 transition-smooth`}
+            >
+              <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-background-card border-border hover:border-accent/50">
+                <CardHeader>
+                  <div className="bg-accent/20 p-3 rounded-lg w-fit group-hover:bg-accent/30 transition-smooth hover:scale-110 hover:rotate-1">
+                    <action.icon className="h-8 w-8 text-accent" />
+                  </div>
+                  <CardTitle className="text-xl text-text">{action.title}</CardTitle>
+                  <CardDescription className="text-muted">
+                    {action.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href={action.href}>
+                    <div className="hover:scale-105 transition-smooth">
+                      <Button className="w-full btn-accent">
+                        {action.buttonText}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
           ))}
         </div>
 
         {/* Featured Events */}
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Upcoming Events</h2>
+            <h2 className="text-3xl font-bold text-text">Upcoming Events</h2>
             <Link href="/events">
-              <Button variant="outline">
+              <Button variant="outline" className="border-accent text-accent hover:bg-accent hover:text-text">
                 View All Events
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -154,10 +165,10 @@ export default function StudentDashboard() {
 
         {/* Alumni Spotlight */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Alumni Spotlight</h2>
+          <h2 className="text-3xl font-bold text-text mb-8">Alumni Spotlight</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {alumni.slice(0, 3).map((alumnus, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300">
+              <Card key={index} className="group hover:shadow-lg transition-all duration-300 bg-background-card border-border hover:border-accent/50">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4 mb-4">
                     <div className="relative">
@@ -170,17 +181,17 @@ export default function StudentDashboard() {
                       />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{alumnus.name}</h3>
-                      <p className="text-sm text-gray-600">{alumnus.position}</p>
-                      <p className="text-xs text-gray-500">{alumnus.company}</p>
+                      <h3 className="font-semibold text-text">{alumnus.name}</h3>
+                      <p className="text-sm text-muted">{alumnus.position}</p>
+                      <p className="text-xs text-muted">{alumnus.company}</p>
                     </div>
                   </div>
-                  <p className="text-gray-700 text-sm mb-4">{alumnus.bio}</p>
+                  <p className="text-muted text-sm mb-4">{alumnus.bio}</p>
                   <div className="flex flex-wrap gap-2">
                     {alumnus.skills.slice(0, 3).map((skill, skillIndex) => (
                       <span
                         key={skillIndex}
-                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full"
+                        className="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full"
                       >
                         {skill}
                       </span>
@@ -194,25 +205,25 @@ export default function StudentDashboard() {
 
         {/* Donation Progress */}
         <section id="donations" className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Support Our Mission</h2>
+          <h2 className="text-3xl font-bold text-text mb-8">Support Our Mission</h2>
           <DonationProgress />
         </section>
 
         {/* Announcements */}
         <section>
-          <Card className="bg-primary/5 border-primary/20">
+          <Card className="bg-accent/10 border-accent/20">
             <CardHeader>
               <div className="flex items-center space-x-2">
-                <Megaphone className="h-5 w-5 text-primary" />
-                <CardTitle className="text-primary">Important Announcement</CardTitle>
+                <Megaphone className="h-5 w-5 text-accent" />
+                <CardTitle className="text-accent">Important Announcement</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 mb-4">
+              <p className="text-muted mb-4">
                 Join us for the annual alumni reunion on June 15th, 2024. This year's theme is 
                 "Building Bridges: Connecting Past, Present, and Future." Register now to secure your spot!
               </p>
-              <Button className="bg-primary hover:bg-primary/90">
+              <Button className="bg-accent hover:bg-accent-light">
                 Learn More
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -222,19 +233,19 @@ export default function StudentDashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-24">
+      <footer className="bg-background-light text-text py-12 mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="bg-primary p-2 rounded-lg">
-                <Building2 className="h-6 w-6 text-white" />
+              <div className="bg-accent p-2 rounded-lg">
+                <Building2 className="h-6 w-6 text-text" />
               </div>
               <span className="text-xl font-bold">AlumniLink</span>
             </div>
-            <p className="text-gray-400 mb-4">
+            <p className="text-muted mb-4">
               Connecting students with alumni, building stronger communities.
             </p>
-            <p className="text-gray-500 text-sm">
+            <p className="text-muted text-sm">
               © 2024 AlumniLink. All rights reserved.
             </p>
           </div>
@@ -243,3 +254,6 @@ export default function StudentDashboard() {
     </div>
   );
 }
+
+
+

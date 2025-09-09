@@ -30,7 +30,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased flex flex-col min-h-screen">
         <ConditionalHeader />
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow">
+          {children}
+        </main>
         <Footer />
         <Toaster />
       </body>

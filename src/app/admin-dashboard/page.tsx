@@ -60,21 +60,21 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background-light shadow-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600">Manage your alumni community</p>
+              <h1 className="text-2xl font-bold text-text">Admin Dashboard</h1>
+              <p className="text-muted">Manage your alumni community</p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-text">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="border-accent text-accent hover:bg-accent hover:text-text">
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
               </Button>
@@ -85,101 +85,88 @@ export default function AdminDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="alumni">Alumni</TabsTrigger>
-            <TabsTrigger value="jobs">Jobs</TabsTrigger>
-            <TabsTrigger value="events">Events</TabsTrigger>
-            <TabsTrigger value="donations">Donations</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6 bg-background-light border-border">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-accent data-[state=active]:text-text">Dashboard</TabsTrigger>
+            <TabsTrigger value="alumni" className="data-[state=active]:bg-accent data-[state=active]:text-text">Alumni</TabsTrigger>
+            <TabsTrigger value="jobs" className="data-[state=active]:bg-accent data-[state=active]:text-text">Jobs</TabsTrigger>
+            <TabsTrigger value="events" className="data-[state=active]:bg-accent data-[state=active]:text-text">Events</TabsTrigger>
+            <TabsTrigger value="donations" className="data-[state=active]:bg-accent data-[state=active]:text-text">Donations</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-accent data-[state=active]:text-text">Analytics</TabsTrigger>
           </TabsList>
 
           {/* Dashboard Tab */}
           <TabsContent value="dashboard" className="space-y-6">
             {/* Stats Cards */}
             <div className="grid md:grid-cols-4 gap-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Total Alumni</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats.totalAlumni.toLocaleString()}</p>
-                      <p className="text-xs text-green-600">+12% from last month</p>
-                    </div>
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <Users className="h-6 w-6 text-blue-600" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Pending Approvals</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats.pendingApprovals}</p>
-                      <p className="text-xs text-orange-600">Requires attention</p>
-                    </div>
-                    <div className="bg-orange-100 p-3 rounded-full">
-                      <UserCheck className="h-6 w-6 text-orange-600" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Total Donations</p>
-                      <p className="text-2xl font-bold text-gray-900">${stats.totalDonations.toLocaleString()}</p>
-                      <p className="text-xs text-green-600">+8% from last month</p>
-                    </div>
-                    <div className="bg-green-100 p-3 rounded-full">
-                      <DollarSign className="h-6 w-6 text-green-600" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">Upcoming Events</p>
-                      <p className="text-2xl font-bold text-gray-900">{stats.upcomingEvents}</p>
-                      <p className="text-xs text-blue-600">Next: Alumni Reunion</p>
-                    </div>
-                    <div className="bg-purple-100 p-3 rounded-full">
-                      <Calendar className="h-6 w-6 text-purple-600" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              {[
+                { 
+                  title: "Total Alumni", 
+                  value: stats.totalAlumni.toLocaleString(), 
+                  subtitle: "+12% from last month", 
+                  icon: Users 
+                },
+                { 
+                  title: "Pending Approvals", 
+                  value: stats.pendingApprovals, 
+                  subtitle: "Requires attention", 
+                  icon: UserCheck 
+                },
+                { 
+                  title: "Total Donations", 
+                  value: `$${stats.totalDonations.toLocaleString()}`, 
+                  subtitle: "+8% from last month", 
+                  icon: DollarSign 
+                },
+                { 
+                  title: "Upcoming Events", 
+                  value: stats.upcomingEvents, 
+                  subtitle: "Next: Alumni Reunion", 
+                  icon: Calendar 
+                }
+              ].map((stat, index) => (
+                <div
+                  key={stat.title}
+                  className={`animate-stagger-${index + 1} group hover:scale-102 hover:-translate-y-1 transition-smooth`}
+                >
+                  <Card className="bg-background-card border-border hover:border-accent/30 transition-colors">
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-muted">{stat.title}</p>
+                          <p className="text-2xl font-bold text-text">{stat.value}</p>
+                          <p className="text-xs text-accent">{stat.subtitle}</p>
+                        </div>
+                        <div className="bg-accent/20 p-3 rounded-full hover:scale-110 hover:rotate-1 transition-smooth">
+                          <stat.icon className="h-6 w-6 text-accent" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
             </div>
 
             {/* Quick Actions */}
             <div className="grid md:grid-cols-2 gap-6">
-              <Card>
+              <Card className="bg-background-card border-border">
                 <CardHeader>
-                  <CardTitle>Pending Alumni Registrations</CardTitle>
+                  <CardTitle className="text-text">Pending Alumni Registrations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {pendingRegistrations.map((registration) => (
-                      <div key={registration.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div key={registration.id} className="flex items-center justify-between p-4 border border-border rounded-lg bg-background-lighter hover:bg-background-light transition-colors">
                         <div>
-                          <h4 className="font-medium">{registration.name}</h4>
-                          <p className="text-sm text-gray-600">{registration.email}</p>
-                          <p className="text-xs text-gray-500">{registration.department} • Batch {registration.batch}</p>
+                          <h4 className="font-medium text-text">{registration.name}</h4>
+                          <p className="text-sm text-muted">{registration.email}</p>
+                          <p className="text-xs text-muted">{registration.department} • Batch {registration.batch}</p>
                         </div>
                         <div className="flex space-x-2">
-                          <Button size="sm" onClick={() => handleApprove('registration', registration.id)}>
+                          <Button size="sm" onClick={() => handleApprove('registration', registration.id)} className="btn-accent">
                             <CheckCircle className="h-4 w-4 mr-1" />
                             Approve
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => handleReject('registration', registration.id)}>
+                          <Button size="sm" variant="outline" onClick={() => handleReject('registration', registration.id)} className="border-accent text-accent hover:bg-accent hover:text-background transition-smooth">
                             <XCircle className="h-4 w-4 mr-1" />
                             Reject
                           </Button>
@@ -190,17 +177,17 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-background-card border-border">
                 <CardHeader>
-                  <CardTitle>Upcoming Events</CardTitle>
+                  <CardTitle className="text-text">Upcoming Events</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {upcomingEvents.map((event) => (
-                      <div key={event.id} className="p-4 border rounded-lg">
-                        <h4 className="font-medium">{event.title}</h4>
-                        <p className="text-sm text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
-                        <p className="text-xs text-gray-500">{event.attendees} attendees registered</p>
+                      <div key={event.id} className="p-4 border border-border rounded-lg bg-background-lighter hover:bg-background-light transition-colors">
+                        <h4 className="font-medium text-text">{event.title}</h4>
+                        <p className="text-sm text-muted">{new Date(event.date).toLocaleDateString()}</p>
+                        <p className="text-xs text-muted">{event.attendees} attendees registered</p>
                       </div>
                     ))}
                   </div>
@@ -211,33 +198,33 @@ export default function AdminDashboard() {
 
           {/* Alumni Tab */}
           <TabsContent value="alumni" className="space-y-6">
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle>Alumni Management</CardTitle>
+                <CardTitle className="text-text">Alumni Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {pendingRegistrations.map((registration) => (
-                    <div key={registration.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div key={registration.id} className="flex items-center justify-between p-4 border border-border rounded-lg bg-background-lighter">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          <Users className="h-5 w-5 text-gray-600" />
+                        <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                          <Users className="h-5 w-5 text-accent" />
                         </div>
                         <div>
-                          <h4 className="font-medium">{registration.name}</h4>
-                          <p className="text-sm text-gray-600">{registration.email}</p>
-                          <p className="text-xs text-gray-500">{registration.department} • Batch {registration.batch}</p>
+                          <h4 className="font-medium text-text">{registration.name}</h4>
+                          <p className="text-sm text-muted">{registration.email}</p>
+                          <p className="text-xs text-muted">{registration.department} • Batch {registration.batch}</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Badge variant="outline">Pending</Badge>
-                        <Button size="sm" onClick={() => handleApprove('registration', registration.id)}>
+                        <Badge variant="outline" className="border-accent text-accent">Pending</Badge>
+                        <Button size="sm" onClick={() => handleApprove('registration', registration.id)} className="bg-accent hover:bg-accent-light">
                           Approve
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleReject('registration', registration.id)}>
+                        <Button size="sm" variant="outline" onClick={() => handleReject('registration', registration.id)} className="border-accent text-accent hover:bg-accent hover:text-text">
                           Reject
                         </Button>
-                        <Button size="sm" variant="ghost">
+                        <Button size="sm" variant="ghost" className="text-muted hover:text-accent">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </div>
@@ -250,25 +237,25 @@ export default function AdminDashboard() {
 
           {/* Jobs Tab */}
           <TabsContent value="jobs" className="space-y-6">
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle>Job Posting Management</CardTitle>
+                <CardTitle className="text-text">Job Posting Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {pendingJobs.map((job) => (
-                    <div key={job.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div key={job.id} className="flex items-center justify-between p-4 border border-border rounded-lg bg-background-lighter">
                       <div>
-                        <h4 className="font-medium">{job.title}</h4>
-                        <p className="text-sm text-gray-600">{job.company}</p>
-                        <p className="text-xs text-gray-500">Posted by {job.postedBy}</p>
+                        <h4 className="font-medium text-text">{job.title}</h4>
+                        <p className="text-sm text-muted">{job.company}</p>
+                        <p className="text-xs text-muted">Posted by {job.postedBy}</p>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Badge variant="outline">Pending</Badge>
-                        <Button size="sm" onClick={() => handleApprove('job', job.id)}>
+                        <Badge variant="outline" className="border-accent text-accent">Pending</Badge>
+                        <Button size="sm" onClick={() => handleApprove('job', job.id)} className="bg-accent hover:bg-accent-light">
                           Approve
                         </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleReject('job', job.id)}>
+                        <Button size="sm" variant="outline" onClick={() => handleReject('job', job.id)} className="border-accent text-accent hover:bg-accent hover:text-text">
                           Reject
                         </Button>
                       </div>
@@ -281,23 +268,23 @@ export default function AdminDashboard() {
 
           {/* Events Tab */}
           <TabsContent value="events" className="space-y-6">
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle>Event Management</CardTitle>
+                <CardTitle className="text-text">Event Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {upcomingEvents.map((event) => (
-                    <div key={event.id} className="p-4 border rounded-lg">
+                    <div key={event.id} className="p-4 border border-border rounded-lg bg-background-lighter">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h4 className="font-medium">{event.title}</h4>
-                          <p className="text-sm text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
-                          <p className="text-xs text-gray-500">{event.attendees} attendees registered</p>
+                          <h4 className="font-medium text-text">{event.title}</h4>
+                          <p className="text-sm text-muted">{new Date(event.date).toLocaleDateString()}</p>
+                          <p className="text-xs text-muted">{event.attendees} attendees registered</p>
                         </div>
                         <div className="flex space-x-2">
-                          <Button size="sm" variant="outline">Edit</Button>
-                          <Button size="sm" variant="outline">Delete</Button>
+                          <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-text">Edit</Button>
+                          <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-text">Delete</Button>
                         </div>
                       </div>
                     </div>
@@ -309,15 +296,15 @@ export default function AdminDashboard() {
 
           {/* Donations Tab */}
           <TabsContent value="donations" className="space-y-6">
-            <Card>
+            <Card className="bg-background-light border-border">
               <CardHeader>
-                <CardTitle>Donation Analytics</CardTitle>
+                <CardTitle className="text-text">Donation Analytics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-12">
-                  <DollarSign className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Donation Analytics</h3>
-                  <p className="text-gray-600">Charts and analytics will be displayed here</p>
+                  <DollarSign className="h-12 w-12 text-muted mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-text mb-2">Donation Analytics</h3>
+                  <p className="text-muted">Charts and analytics will be displayed here</p>
                 </div>
               </CardContent>
             </Card>
@@ -326,28 +313,28 @@ export default function AdminDashboard() {
           {/* Analytics Tab */}
           <TabsContent value="analytics" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
-              <Card>
+              <Card className="bg-background-light border-border">
                 <CardHeader>
-                  <CardTitle>Alumni Distribution</CardTitle>
+                  <CardTitle className="text-text">Alumni Distribution</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12">
-                    <PieChart className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Department Distribution</h3>
-                    <p className="text-gray-600">Pie chart will be displayed here</p>
+                    <PieChart className="h-12 w-12 text-muted mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-text mb-2">Department Distribution</h3>
+                    <p className="text-muted">Pie chart will be displayed here</p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-background-light border-border">
                 <CardHeader>
-                  <CardTitle>Platform Engagement</CardTitle>
+                  <CardTitle className="text-text">Platform Engagement</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12">
-                    <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Engagement Metrics</h3>
-                    <p className="text-gray-600">Bar chart will be displayed here</p>
+                    <BarChart3 className="h-12 w-12 text-muted mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-text mb-2">Engagement Metrics</h3>
+                    <p className="text-muted">Bar chart will be displayed here</p>
                   </div>
                 </CardContent>
               </Card>

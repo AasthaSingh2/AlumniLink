@@ -56,8 +56,8 @@ export function Header({ showNavigation = true }: HeaderProps) {
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground",
-        pathname === href && "text-foreground font-semibold",
+        "flex items-center gap-2 text-muted transition-colors hover:text-accent",
+        pathname === href && "text-accent font-semibold",
         className
       )}
     >
@@ -67,14 +67,16 @@ export function Header({ showNavigation = true }: HeaderProps) {
   );
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <Link
-        href="/"
-        className="flex items-center gap-2 font-semibold font-headline"
-      >
-        <GraduationCap className="h-6 w-6 text-primary" />
-        <span className="text-lg">AlumniLink</span>
-      </Link>
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b border-border bg-background px-4 md:px-6">
+      <div className="hover:scale-105 transition-transform">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold font-headline text-text"
+        >
+          <GraduationCap className="h-6 w-6 text-accent" />
+          <span className="text-lg">AlumniLink</span>
+        </Link>
+      </div>
       
       {/* Only show navigation if showNavigation prop is true */}
       {showNavigation && (
@@ -85,13 +87,14 @@ export function Header({ showNavigation = true }: HeaderProps) {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "transition-colors hover:text-foreground",
+                  "relative transition-smooth hover:text-accent group hover:-translate-y-0.5",
                   pathname === link.href
-                    ? "text-foreground font-semibold"
-                    : "text-muted-foreground"
+                    ? "text-accent font-semibold"
+                    : "text-muted"
                 )}
               >
                 {link.label}
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-hover group-hover:w-full transition-smooth" />
               </Link>
             ))}
           </nav>
@@ -103,13 +106,13 @@ export function Header({ showNavigation = true }: HeaderProps) {
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left">
+              <SheetContent side="left" className="bg-background border-border">
                 <nav className="grid gap-6 text-lg font-medium">
                   <Link
                     href="#"
-                    className="flex items-center gap-2 text-lg font-semibold"
+                    className="flex items-center gap-2 text-lg font-semibold text-text"
                   >
-                    <GraduationCap className="h-6 w-6 text-primary" />
+                    <GraduationCap className="h-6 w-6 text-accent" />
                     <span>AlumniLink</span>
                   </Link>
                   {navLinks.map((link) => (
@@ -125,7 +128,7 @@ export function Header({ showNavigation = true }: HeaderProps) {
             </Sheet>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="icon" className="rounded-full">
+                <Button variant="secondary" size="icon" className="rounded-full bg-background-light hover:bg-background-lighter">
                   <Avatar>
                     <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
                     <AvatarFallback>AU</AvatarFallback>
@@ -133,13 +136,13 @@ export function Header({ showNavigation = true }: HeaderProps) {
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="bg-background-light border-border">
+                <DropdownMenuLabel className="text-text">My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem className="text-text hover:bg-accent/20">Profile</DropdownMenuItem>
+                <DropdownMenuItem className="text-text hover:bg-accent/20">Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem className="text-text hover:bg-accent/20">Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

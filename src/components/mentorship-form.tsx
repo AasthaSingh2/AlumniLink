@@ -14,10 +14,25 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wand2, User } from 'lucide-react';
+import { Loader2, Wand2, ArrowLeft } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { MentorCard } from './mentor-card';
 
-const initialState = {
+interface MentorSuggestion {
+  name: string;
+  title: string;
+  expertise: string;
+  matchScore: number;
+  bio: string;
+  linkedInUrl: string;
+}
+
+interface FormState {
+  suggestions: MentorSuggestion[] | null;
+  error: string | null;
+}
+
+const initialState: FormState = {
   suggestions: null,
   error: null,
 };
@@ -42,68 +57,97 @@ function SubmitButton() {
 }
 
 export function MentorshipForm() {
-    const [state, formAction] = useFormState(getMentorSuggestions, initialState);
-    
-    // This local state is used to control the visibility of the form vs the results
-    const [submitted, setSubmitted] = useState(false);
+  const [state, formAction] = useFormState<FormState, FormData>(
+    async (prevState: FormState, formData: FormData) => {
+      return await getMentorSuggestions(prevState, formData);
+    },
+    initialState
+  );
+  const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setSubmitted(true);
-        const formData = new FormData(event.currentTarget);
-        formAction(formData);
-    }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    formAction(formData);
+    setSubmitted(true);
+  };
+
+  const resetForm = () => {
+    setSubmitted(false);
+  };
+
+  if (submitted && state.suggestions) {
+    return (
+      <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Recommended Mentors</h2>
+          <Button
+            variant="ghost"
+            onClick={resetForm}
+            className="text-primary"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to form
+          </Button>
+        </div>
+
+        <div className="space-y-6">
+          {state.suggestions.map((mentor) => (
+            <div key={mentor.name} className="relative">
+              <MentorCard
+                name={mentor.name}
+                title={mentor.title}
+                expertise={mentor.expertise}
+                matchScore={mentor.matchScore}
+                bio={mentor.bio}
+                linkedInUrl={mentor.linkedInUrl}
+              />
+              <div className="mt-2">
+                <Button variant="outline" size="sm">View Profile</Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <Card>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <Card>
         <CardHeader>
-          <CardTitle className="font-headline">Describe Your Needs</CardTitle>
+          <CardTitle className="text-2xl">Find Your Perfect Mentor</CardTitle>
           <CardDescription>
-            Tell us about your industry, skills you want to develop, and your
-            career goals. The more detail, the better the match.
+            Tell us about your goals, skills, and what you're looking for in a mentor.
+            We'll match you with alumni who can help you grow.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="menteeProfile">Your Profile &amp; Goals</Label>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="menteeProfile">Your Profile & Goals</Label>
             <Textarea
               id="menteeProfile"
               name="menteeProfile"
-              placeholder="e.g., 'I am a junior software developer with 2 years of experience in React. I want to grow into a senior role and improve my system design skills. I'm interested in the fintech industry.'"
-              rows={6}
+              placeholder="Example: I'm a third-year CS student interested in machine learning. I'm looking for guidance on breaking into AI research and building a strong portfolio."
+              className="min-h-[150px]"
               required
             />
+            <p className="text-sm text-muted-foreground">
+              Be specific about your goals, skills, and what you hope to gain from mentorship.
+            </p>
           </div>
+
+          {state?.error && (
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{state.error}</AlertDescription>
+            </Alert>
+          )}
         </CardContent>
         <CardFooter>
           <SubmitButton />
         </CardFooter>
-      </form>
-        {submitted && (
-            <CardContent>
-                {state.error && (
-                    <Alert variant="destructive">
-                        <AlertTitle>Error</AlertTitle>
-                        <AlertDescription>{state.error}</AlertDescription>
-                    </Alert>
-                )}
-                {state.suggestions && (
-                    <div className="mt-6">
-                        <h3 className="text-2xl font-bold text-center mb-4 font-headline">Mentor Suggestions</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {state.suggestions.map((name, index) => (
-                                <Card key={index} className="text-center p-4">
-                                    <User className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
-                                    <p className="font-semibold">{name}</p>
-                                    <Button variant="outline" size="sm" className="mt-2">View Profile</Button>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </CardContent>
-        )}
-    </Card>
+      </Card>
+    </form>
   );
 }

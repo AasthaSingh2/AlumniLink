@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,11 +9,52 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Camera, Save, ArrowLeft } from 'lucide-react';
+import { Camera, Save, ArrowLeft, Linkedin } from 'lucide-react';
 import Link from 'next/link';
+import { LinkedInImport } from '@/components/linkedin-import';
+
+interface FormData {
+  name: string;
+  batch: string;
+  department: string;
+  skills: string;
+  currentCompany: string;
+  position: string;
+  location: string;
+  linkedinUrl: string;
+  githubUrl: string;
+  bio: string;
+  profilePhoto: File | null;
+  headline: string;
+  profileImage: string;
+}
+
+// Client component for LinkedIn import
+function LinkedInImportSection({ onDataFetched }: { onDataFetched: (data: any) => void }) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="pt-4 border-t border-gray-200">
+      <button
+        type="button"
+        onClick={() => setShow(!show)}
+        className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
+      >
+        <Linkedin className="h-4 w-4 mr-2" />
+        {show ? 'Hide' : 'Show'} LinkedIn Import
+      </button>
+
+      {show && (
+        <div className="mt-4">
+          <LinkedInImport onDataFetched={onDataFetched} />
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AlumniProfile() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: 'Dr. Sarah Johnson',
     batch: '2015',
     department: 'Computer Science',
@@ -23,8 +65,12 @@ export default function AlumniProfile() {
     linkedinUrl: 'https://linkedin.com/in/sarahjohnson',
     githubUrl: 'https://github.com/sarahjohnson',
     bio: 'Experienced software engineer with 10+ years in ML and AI. Passionate about mentoring junior developers and contributing to open source projects.',
-    profilePhoto: null
+    profilePhoto: null,
+    headline: 'Senior Software Engineer at Google',
+    profileImage: ''
   });
+
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -86,20 +132,20 @@ export default function AlumniProfile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // In real app, save to backend
       console.log('Profile saved:', formData);
-      
+
       // Show success message
       alert('Profile updated successfully!');
     } catch (error) {
@@ -114,8 +160,26 @@ export default function AlumniProfile() {
     const file = e.target.files?.[0];
     if (file) {
       // In real app, upload to cloud storage
-      setFormData(prev => ({ ...prev, profilePhoto: file }));
+      const imageUrl = URL.createObjectURL(file);
+      setFormData(prev => ({
+        ...prev,
+        profilePhoto: file,
+        profileImage: imageUrl
+      }));
     }
+  };
+
+  const handleLinkedInData = (data: any) => {
+    setFormData(prev => ({
+      ...prev,
+      name: data.name || prev.name,
+      position: data.currentPosition || prev.position,
+      currentCompany: data.company || prev.currentCompany,
+      linkedinUrl: data.linkedinUrl || prev.linkedinUrl,
+      headline: data.headline || prev.headline,
+      profileImage: data.profileImage || prev.profileImage,
+      bio: data.headline ? `${data.headline}. ${prev.bio || ''}`.trim() : prev.bio
+    }));
   };
 
   return (
@@ -143,32 +207,54 @@ export default function AlumniProfile() {
               <CardTitle>Profile Photo</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-6">
-                <Avatar className="h-24 w-24">
-                  <AvatarImage src="/placeholder-avatar.jpg" alt="Profile" />
-                  <AvatarFallback className="text-lg">
-                    {formData.name.split(' ').map(n => n[0]).join('')}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <Label htmlFor="photo-upload" className="cursor-pointer">
-                    <Button type="button" variant="outline" asChild>
-                      <span>
-                        <Camera className="h-4 w-4 mr-2" />
-                        Upload Photo
-                      </span>
-                    </Button>
-                  </Label>
-                  <input
-                    id="photo-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                    className="hidden"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    JPG, PNG or GIF. Max size 2MB.
-                  </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <div className="flex-shrink-0">
+                  <Avatar className="h-24 w-24">
+                    <AvatarImage src={formData.profileImage || "/placeholder-avatar.jpg"} alt="Profile" />
+                    <AvatarFallback className="text-lg">
+                      {formData.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+
+                <div className="space-y-4 w-full max-w-md">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex-1">
+                      <Label htmlFor="profile-photo" className="cursor-pointer block">
+                        <div className="inline-flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                          <Camera className="h-4 w-4 mr-2" />
+                          Upload Photo
+                        </div>
+                        <input
+                          id="profile-photo"
+                          type="file"
+                          accept="image/*"
+                          className="sr-only"
+                          onChange={handlePhotoUpload}
+                        />
+                      </Label>
+                    </div>
+
+                    <div className="border-l border-gray-300 h-10 self-center hidden sm:block" />
+
+                    <div className="flex-1">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setFormData(prev => ({ ...prev, profilePhoto: null, profileImage: '' }))}
+                        disabled={!formData.profileImage}
+                      >
+                        Remove Photo
+                      </Button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* LinkedIn Import Section */}
+                <div className="w-full mt-4">
+                  <LinkedInImportSection onDataFetched={handleLinkedInData} />
                 </div>
               </div>
             </CardContent>
@@ -300,13 +386,26 @@ export default function AlumniProfile() {
             <CardContent className="space-y-6">
               <div>
                 <Label htmlFor="linkedinUrl">LinkedIn URL</Label>
-                <Input
-                  id="linkedinUrl"
-                  value={formData.linkedinUrl}
-                  onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
-                  placeholder="https://linkedin.com/in/yourprofile"
-                  className={errors.linkedinUrl ? 'border-red-500' : ''}
-                />
+                <div className="flex items-center space-x-2">
+                  <div className="flex-1">
+                    <Input
+                      id="linkedin"
+                      value={formData.linkedinUrl}
+                      onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
+                      placeholder="https://linkedin.com/in/username"
+                    />
+                  </div>
+                  {formData.linkedinUrl && (
+                    <a
+                      href={formData.linkedinUrl.startsWith('http') ? formData.linkedinUrl : `https://${formData.linkedinUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 text-blue-600 hover:text-blue-800"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
                 {errors.linkedinUrl && <p className="text-red-500 text-sm mt-1">{errors.linkedinUrl}</p>}
               </div>
 

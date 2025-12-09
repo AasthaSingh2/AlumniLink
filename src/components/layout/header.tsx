@@ -67,34 +67,40 @@ export function Header({ showNavigation = true }: HeaderProps) {
   );
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b border-border bg-background px-4 md:px-6">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b border-gray-200 bg-white shadow-sm px-4 md:px-6">
       <div className="hover:scale-105 transition-transform">
         <Link
           href="/"
-          className="flex items-center gap-2 font-semibold font-headline text-text"
+          className="flex items-center gap-2 font-semibold font-headline text-gray-900"
         >
-          <GraduationCap className="h-6 w-6 text-accent" />
+          <GraduationCap className="h-6 w-6 text-blue-600" />
           <span className="text-lg">AlumniLink</span>
         </Link>
       </div>
-      
+
       {/* Only show navigation if showNavigation prop is true */}
       {showNavigation && (
         <>
-          <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 ml-auto">
+          <nav className="hidden flex-col gap-6 text-base font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 ml-auto">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative transition-smooth hover:text-accent group hover:-translate-y-0.5",
+                  "relative transition-all group px-3 py-2 rounded-md",
                   pathname === link.href
-                    ? "text-accent font-semibold"
-                    : "text-muted"
+                    ? "bg-blue-50 text-blue-700 font-medium"
+                    : "text-gray-700 hover:bg-gray-100"
                 )}
               >
-                {link.label}
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-hover group-hover:w-full transition-smooth" />
+                <div className="flex items-center gap-2">
+                  <link.icon className="h-5 w-5" />
+                  <span>{link.label}</span>
+                </div>
+                <div className={cn(
+                  "absolute -bottom-1 left-1/2 w-0 h-0.5 bg-blue-600 group-hover:w-4/5 transition-all duration-300",
+                  pathname === link.href ? "w-4/5" : ""
+                )} style={{ transform: 'translateX(-50%)' }} />
               </Link>
             ))}
           </nav>

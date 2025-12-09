@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Providers } from '@/components/providers';
+import { Toaster } from '@/components/ui/toaster';
 import { ConditionalHeader } from '@/components/layout/conditional-header';
 import { Footer } from '@/components/layout/footer';
-import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'AlumniLink',
@@ -28,13 +29,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased flex flex-col min-h-screen">
-        <ConditionalHeader />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
+      <body className="font-body antialiased min-h-screen flex flex-col">
+        <Providers>
+          <ConditionalHeader />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

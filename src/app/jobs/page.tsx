@@ -8,12 +8,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Search, 
-  Filter, 
-  MapPin, 
-  Building, 
-  Clock, 
+import {
+  Search,
+  Filter,
+  MapPin,
+  Building,
+  Clock,
   ExternalLink,
   Plus,
   Briefcase,
@@ -98,12 +98,12 @@ export default function JobsPage() {
 
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         job.description.toLowerCase().includes(searchTerm.toLowerCase());
+      job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesLocation = !locationFilter || job.location.toLowerCase().includes(locationFilter.toLowerCase());
     const matchesType = !typeFilter || job.type === typeFilter;
     const matchesCompany = !companyFilter || job.company.toLowerCase().includes(companyFilter.toLowerCase());
-    
+
     return matchesSearch && matchesLocation && matchesType && matchesCompany;
   });
 
@@ -170,7 +170,7 @@ export default function JobsPage() {
                     <SelectValue placeholder="All locations" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All locations</SelectItem>
+                    <SelectItem value="all">All locations</SelectItem>
                     {uniqueLocations.map(location => (
                       <SelectItem key={location} value={location}>{location}</SelectItem>
                     ))}
@@ -185,7 +185,7 @@ export default function JobsPage() {
                     <SelectValue placeholder="All types" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All types</SelectItem>
+                    <SelectItem value="all">All types</SelectItem>
                     <SelectItem value="Full-time">Full-time</SelectItem>
                     <SelectItem value="Internship">Internship</SelectItem>
                   </SelectContent>
@@ -199,7 +199,7 @@ export default function JobsPage() {
                     <SelectValue placeholder="All companies" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All companies</SelectItem>
+                    <SelectItem value="all">All companies</SelectItem>
                     {uniqueCompanies.map(company => (
                       <SelectItem key={company} value={company}>{company}</SelectItem>
                     ))}
@@ -228,7 +228,7 @@ export default function JobsPage() {
                         {job.type}
                       </Badge>
                     </div>
-                    
+
                     <div className="flex items-center space-x-4 text-gray-600 mb-3">
                       <div className="flex items-center">
                         <Building className="h-4 w-4 mr-1" />
@@ -244,8 +244,8 @@ export default function JobsPage() {
                       </div>
                     </div>
 
-                    <p className="text-gray-700 mb-4 overflow-hidden" style={{display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'}}>{job.description}</p>
-                    
+                    <p className="text-gray-700 mb-4 overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{job.description}</p>
+
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-gray-500">
                         Posted by {job.postedBy}
@@ -255,8 +255,8 @@ export default function JobsPage() {
                           Apply Now
                           <ExternalLink className="h-4 w-4 ml-2" />
                         </a>
-        </Button>
-      </div>
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -322,7 +322,7 @@ export default function JobsPage() {
                     <Label htmlFor="job-type">Job Type *</Label>
                     <Select value={newJob.type} onValueChange={(value: 'Full-time' | 'Internship') => setNewJob(prev => ({ ...prev, type: value }))}>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select job type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Full-time">Full-time</SelectItem>

@@ -129,12 +129,6 @@ The application uses:
 4. Submit a pull request
 
 
-## 👥 Author
-
-**Aastha Singh**
-- GitHub: [@AasthaSingh2](https://github.com/AasthaSingh2)
-
----
 
 **AlumniLink** - Connecting alumni for mentorship, opportunities, and community.
 
